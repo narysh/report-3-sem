@@ -1,7 +1,8 @@
 \documentclass[a4paper,14pt]{extarticle}
+\usepackage{cmap}
+\usepackage[T2A]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[russian]{babel}
-\usepackage[T1,T2A]{fontenc}
 \usepackage{geometry}
 \geometry{left=30mm, right=15mm, top=20mm, bottom=20mm}
 \usepackage{hyperref}
@@ -26,3 +27,4 @@
 Цель работы — разработка математически обоснованных эвристических алгоритмов обхода индекса, которые позволят существенно ускорить процесс выбора оптимального базового чанка (top-k) без заметного снижения итогового коэффициента дельта-компрессии. Ожидаемым результатом является программная реализация предложенных эвристик на языке Rust в проекте \texttt{marline}, а также оценка их влияния на производительность подсистемы поиска с помощью тестирования на репрезентативных наборах данных.
 
 \end{document}
+
