@@ -1,0 +1,52 @@
+\documentclass[a4paper,14pt]{extarticle}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage[T1,T2A]{fontenc}
+\usepackage{geometry}
+\geometry{left=30mm, right=15mm, top=20mm, bottom=20mm}
+\usepackage{enumitem}
+\usepackage{indentfirst}
+
+\begin{document}
+
+\section*{Цель и декомпозиция на задачи}
+
+\textbf{Цель:} Разработка эвристических алгоритмов поиска по инвертированному индексу для ускорения процесса выбора базовых чанков в системах дедупликации данных на основе сходства (SBC) без существенной потери коэффициента сжатия.
+
+\textbf{Декомпозиция на задачи:}
+
+\begin{enumerate}
+    \item \textbf{Изучение кодовой базы подсистемы индексации \texttt{marline\_index}}
+    \begin{itemize}
+        \item Анализ процесса формирования и хранения инвертированного индекса.
+        \item Профилирование текущих реализаций поиска (\texttt{top\_k}, \texttt{gather\_candidates}) для выявления вычислительных узких мест.
+    \end{itemize}
+    
+    \item \textbf{Разработка эвристических алгоритмов поиска кандидатов}
+    \begin{itemize}
+        \item Реализация эвристики \texttt{max\_df} для исключения признаков со слишком длинными списками инвертированного индекса (posting lists).
+        \item Реализация обхода признаков по возрастанию их частоты (\texttt{rare\_first}).
+        \item Добавление математических оценок для раннего отсечения кандидатов, чей максимальный overlap не позволяет достичь порога сходства (\texttt{min\_jaccard}).
+        \item Разработка механизма обратной связи для фильтрации ложноположительных ключей по метрике неудачных верификаций (\texttt{fp\_metric\_threshold}).
+    \end{itemize}
+    
+    \item \textbf{Интеграция эвристик в конвейер дедупликации}
+    \begin{itemize}
+        \item Внедрение поддержки оценки частоты признака (\texttt{posting\_len}) в \texttt{index\_storage.rs}.
+        \item Добавление API для регистрации успешных и ложноположительных совпадений (\texttt{record\_false\_positive}, \texttt{record\_verified}).
+    \end{itemize}
+    
+    \item \textbf{Тестирование и бенчмаркинг}
+    \begin{itemize}
+        \item Подготовка репрезентативных наборов данных для тестирования.
+        \item Проведение сравнительных тестов: замер скорости поиска кандидатов и влияния эвристик на итоговый коэффициент дедупликации.
+    \end{itemize}
+    
+    \item \textbf{Анализ результатов и подготовка отчётности}
+    \begin{itemize}
+        \item Оценка эффективности внедрённых оптимизаций на основе собранных метрик.
+        \item Оформление итогового отчёта по учебной практике.
+    \end{itemize}
+\end{enumerate}
+
+\end{document}
