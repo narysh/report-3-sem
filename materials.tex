@@ -1,0 +1,34 @@
+\documentclass[a4paper,14pt]{extarticle}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage[T1,T2A]{fontenc}
+\usepackage{geometry}
+\geometry{left=30mm, right=15mm, top=20mm, bottom=20mm}
+\usepackage{hyperref}
+\usepackage{indentfirst}
+
+\begin{document}
+
+\section*{Материалы и обзор литературы}
+
+\subsection*{1. Broder, A. Z., et al. "Efficient query evaluation using a two-level retrieval process"}
+\textbf{Ссылка:} \url{https://dl.acm.org/doi/10.1145/956861.956944} (Посвящено алгоритму WAND) \\
+\textbf{Обзор:} В статье представлен алгоритм WAND (Weak AND) и методы раннего отсечения (early termination) при поиске по инвертированному индексу. Алгоритм использует сортировку признаков от редких к частым и вычисление верхних оценок сходства для быстрого исключения нерелевантных документов. \\
+\textbf{Зачем это нужно в работе:} Идеи сортировки \texttt{rare\_first} и раннего отсечения кандидатов лежат в основе эвристики \texttt{min\_jaccard} и порядка обхода признаков в функции \texttt{gather\_candidates()}, что позволяет кратно ускорить поиск базового чанка.
+
+\subsection*{2. "Optimizing Inverted Index Queries for Jaccard Similarity" (Исследования в области IR)}
+\textbf{Ссылка:} \url{https://dl.acm.org/doi/10.1145/2484028.2484062} \\
+\textbf{Обзор:} Работа рассматривает методы ускоренного вычисления сходства Жаккара по инвертированному индексу. Раскрываются эвристики фильтрации по размеру (length filtering) и фильтрации по префиксу (prefix filtering), а также методы исключения слишком частых термов (аналог \texttt{max\_df}). \\
+\textbf{Зачем это нужно в работе:} В проекте \texttt{marline\_index} поиск кандидатов основан на подсчете overlap (пересечения) фичей. Статья обосновывает математическую корректность использования \texttt{max\_df} и порога пересечения для минимизации вычислительных затрат.
+
+\subsection*{3. Aronovich, L., et al. "The design of a similarity based deduplication system" (SYSTOR '09)}
+\textbf{Ссылка:} \url{https://dl.acm.org/doi/10.1145/1534530.1534541} \\
+\textbf{Обзор:} Фундаментальная статья, описывающая архитектуру промышленной системы дедупликации на основе сходства. Авторы вводят использование признаков (features) для поиска кандидатов на дельта-сжатие вместо полного побайтового сравнения. \\
+\textbf{Зачем это нужно в работе:} Статья дает общее понимание того, как работает SBC, и почему на этапе верификации кандидата могут возникать ложноположительные срабатывания. Это обосновывает необходимость введения эвристики \texttt{fp\_metric\_threshold} для штрафования плохих кандидатов.
+
+\subsection*{4. Manning, C. D., Raghavan, P., Schutze, H. "Introduction to Information Retrieval" (Глава 7: Computing scores in a complete search system)}
+\textbf{Ссылка:} \url{https://nlp.stanford.edu/IR-book/html/htmledition/computing-scores-in-a-complete-search-system-1.html} \\
+\textbf{Обзор:} В главе учебника подробно описаны классические эвристики обхода инвертированного индекса, в том числе игнорирование высокочастотных термов и методы ускорения вычисления top-k кандидатов (например, Document-at-a-time). \\
+\textbf{Зачем это нужно в работе:} Книга является академической базой, необходимой для корректной терминологической формулировки задач и описания эвристики \texttt{max\_df} в отчете по практике.
+
+\end{document}
